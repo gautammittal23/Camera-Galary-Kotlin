@@ -18,6 +18,7 @@ import android.provider.MediaStore
 import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.net.Uri
 import android.os.Build
 import android.view.View
 import android.widget.ImageView
@@ -76,6 +77,9 @@ class MainActivity : AppCompatActivity() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                 Manifest.permission.CAMERA)) {
 
+
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), 1888)
+
         } else {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA),1888)
         }
@@ -87,8 +91,13 @@ class MainActivity : AppCompatActivity() {
             super.onActivityResult(requestCode, resultCode, data)
 
             if (requestCode == 1888) {
-                val photo = data?.extras!!.get("data") as Bitmap?
-                imageView.setImageBitmap(photo)
+                if (data != null) {
+                    val photo = data?.extras!!.get("data") as Bitmap?
+
+                    imageView.setImageBitmap(photo)
+                } else {
+                    Toast.makeText(this, "I got it ", Toast.LENGTH_LONG).show()
+                }
             }
 
 //            else if(requestCode==11)
